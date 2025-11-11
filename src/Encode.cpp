@@ -2,19 +2,25 @@
 
 // First open a file
 // dynamically allocate dictionary because it will take up a lot of space
+// charsAndTheirOccurences = make_unique<unordered_map<string, int>>();
 
-int main() {
-  std::ifstream file("filename.txt");
-  std::string line;
+void Encoder::createCharCountDict(ifstream &txtFile) {
+  char charr;
 
-  if (file.is_open()) {
-    while (getline(file, line)) {
-      std::cout << line << '\n';
+  if (txtFile.is_open()) {
+    while (txtFile.get(charr)) {
+      string key(1, charr);
+      ++charsAndTheirOccurences[key];
+      // for debugging special chars
+      // cout << charr << endl;
+      // if (!isalnum(static_cast<unsigned char>(charr))) {
+      // cout << "Special char: '" << charr << "' (ASCII " << static_cast<int>(charr) << ")\n";
+      //}
     }
-    file.close();
+    txtFile.close();
   } else {
-    std::cerr << "Error: Unable to open file.\n";
+    cerr << "Error: Unable to open file.\n";
   }
-
-  return 0;
 }
+
+unordered_map<string, int> &Encoder::getCharDict() { return charsAndTheirOccurences; }
