@@ -11,6 +11,7 @@ void Encoder::createCharCountDict(ifstream &txtFile) {
     while (txtFile.get(charr)) {
       string key(1, charr);
       ++charsAndTheirOccurences[key];
+      ++totalCharCount;
       // for debugging special chars
       // cout << charr << endl;
       // if (!isalnum(static_cast<unsigned char>(charr))) {
@@ -24,3 +25,8 @@ void Encoder::createCharCountDict(ifstream &txtFile) {
 }
 
 unordered_map<string, int> &Encoder::getCharDict() { return charsAndTheirOccurences; }
+
+int Encoder::getTotalCharCount() { return totalCharCount; }
+
+void Encoder::resetDict() { charsAndTheirOccurences.clear(); }
+void Encoder::resetCharCount() { totalCharCount = 0; }
