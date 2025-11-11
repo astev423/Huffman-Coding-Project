@@ -7,11 +7,11 @@ g++ -std=c++23 -Wall -Werror  testMakingCharCountDict.cpp ../../src/Encode.cpp &
 #include <unordered_map>
 #include <vector>
 
-void makeExpectedDictsAndCharCounts(vector<int> &expectedTotalChars,
-                                    vector<unordered_map<string, int>> &expectedDicts);
-void compareExpectedAndReturnedValues(const unordered_map<string, int> &returnedDicts,
-                                      const unordered_map<string, int> &expectedDicts,
-                                      int returnedCharCount, int expectedCharCount, int &fails,
+void makeExpectedDictsAndCharCounts(vector<int>& expectedTotalChars,
+                                    vector<unordered_map<string, int>>& expectedDicts);
+void compareExpectedAndReturnedValues(const unordered_map<string, int>& returnedDicts,
+                                      const unordered_map<string, int>& expectedDicts,
+                                      int returnedCharCount, int expectedCharCount, int& fails,
                                       int fileNum);
 
 int main() {
@@ -43,8 +43,8 @@ int main() {
   cout << filesToTest - fails << " out of " << filesToTest << " cases passed!\n";
 }
 
-void makeExpectedDictsAndCharCounts(vector<int> &expectedTotalChars,
-                                    vector<unordered_map<string, int>> &expectedDicts) {
+void makeExpectedDictsAndCharCounts(vector<int>& expectedTotalChars,
+                                    vector<unordered_map<string, int>>& expectedDicts) {
   // When making expected dicts, order does not matter, just key value pairs
   // Below is all our expected dictionary key value pairs and the char count for each
   unordered_map<string, int> expectedDict1 = {{"\\", 1}, {"!", 1}, {"/", 1}, {"$", 1}, {"&", 1},
@@ -102,9 +102,9 @@ void makeExpectedDictsAndCharCounts(vector<int> &expectedTotalChars,
   expectedTotalChars.push_back(0);
 }
 
-void compareExpectedAndReturnedValues(const unordered_map<string, int> &returnedDict,
-                                      const unordered_map<string, int> &expectedDict,
-                                      int returnedCharCount, int expectedCharCount, int &fails,
+void compareExpectedAndReturnedValues(const unordered_map<string, int>& returnedDict,
+                                      const unordered_map<string, int>& expectedDict,
+                                      int returnedCharCount, int expectedCharCount, int& fails,
                                       int fileNum) {
   bool failed = false;
   // printing key value pairs for debugging

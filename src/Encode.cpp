@@ -4,7 +4,7 @@
 // dynamically allocate dictionary because it will take up a lot of space
 // charsAndTheirOccurences = make_unique<unordered_map<string, int>>();
 
-void Encoder::createCharCountDict(ifstream &txtFile) {
+void Encoder::createCharCountDict(ifstream& txtFile) {
   char charr;
 
   if (txtFile.is_open()) {
@@ -24,7 +24,7 @@ void Encoder::createCharCountDict(ifstream &txtFile) {
   }
 }
 
-unordered_map<string, int> &Encoder::getCharDict() { return charsAndTheirOccurences; }
+unordered_map<string, int>& Encoder::getCharDict() { return charsAndTheirOccurences; }
 
 int Encoder::getTotalCharCount() { return totalCharCount; }
 
