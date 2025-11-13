@@ -14,6 +14,11 @@ charOccuranceMinHeap = MinHeap()
 for char, occurance in charsAndTheirFrequencies.items()
   charNode = Node(char = char, occurance = occurance)
   charOccuranceMinHeap.insert(charNode)
+# No point in compressing empty file, and it will break program if pop from empty minheap, so
+# if we found no chars then just exit
+if(charOccuranceMinHeap.size() == 0){
+  cout << "Empty minheap passed in\n";
+  return -1;
 
 
 # Building huffman tree out of min heap
@@ -23,15 +28,12 @@ while charOccuranceMinHeap.size() > 1
   firstCharNode = charOccuranceMinHeap.pop()
   secondCharNode = charOccuranceMinHeap.pop()
 
-
+  # Then make parent from those 2 and add it to minheap
   parentNode = charNode("INTERNAL", firstCharNode.occurance + secondCharNode.occurance)
   parentNode.left = firstCharNode
   parentNode.right = secondCharNode
   charOccuranceMinHeap.insert(parentNode)
-if(charOccuranceMinHeap.size() == 0){
-  cout << "Empty minheap passed in\n";
-  return -1;
-
+# Minheap always has 1 node leftover, which we make as our root
 huffmanTree.root = charOccuranceMinHeap.pop();
 
 

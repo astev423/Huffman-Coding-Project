@@ -20,12 +20,19 @@ void HuffmanTree::buildFromMinheap(Minheap& minheap) {
   root = minheap.pop();
 }
 
-void HuffmanTree::postOrderTraversal(const unique_ptr<CharCountNode>& root) {
+void HuffmanTree::postOrderTraversal(const unique_ptr<CharCountNode>& root, int& leavesVisited,
+                                     int& charsVisited) {
   if (root == nullptr) {
     return;
   }
+  if (root->charr != "INTERNAL") {
+    ++charsVisited;
+  }
+  if (root->left == nullptr && root->right == nullptr) {
+    ++leavesVisited;
+  }
 
-  postOrderTraversal(root->left);
-  postOrderTraversal(root->right);
+  postOrderTraversal(root->left, leavesVisited, charsVisited);
+  postOrderTraversal(root->right, leavesVisited, charsVisited);
   std::cout << root->charr << " count = " << root->count << std::endl;
 }

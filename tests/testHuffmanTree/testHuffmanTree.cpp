@@ -15,15 +15,29 @@ int main() {
   HuffmanTree huffmanTree;
   buildHuffmanTree(huffmanTree);
   std::cout << "now running postorder dfs!!!!!" << std::endl;
-  huffmanTree.postOrderTraversal(huffmanTree.root);
+  int tempNum1 = 0;
+  int tempNum2 = 0;
+  huffmanTree.postOrderTraversal(huffmanTree.root, tempNum1, tempNum2);
 
   std::cout << std::endl;
   std::cout << "making new tree" << std::endl;
   HuffmanTree newHuffmanTree;
   Minheap minheap = makeMinheap();
+  int heapSize = minheap.m_charCountMinheap.size();
   newHuffmanTree.buildFromMinheap(minheap);
   std::cout << "now running postorder dfs!!!!!" << std::endl;
-  newHuffmanTree.postOrderTraversal(newHuffmanTree.root);
+  int leavesInTreeVisited = 0;
+  int charsInTreeVisited = 0;
+  newHuffmanTree.postOrderTraversal(newHuffmanTree.root, leavesInTreeVisited, charsInTreeVisited);
+
+  // Test if values are right
+  std::cout << "This traversal visited " << leavesInTreeVisited << " leaves and "
+            << charsInTreeVisited << " chars" << std::endl;
+  if (heapSize == leavesInTreeVisited && heapSize == charsInTreeVisited) {
+    cout << "✅ Nodes visited, leaf nodes, and heap size all match! Test passed!" << endl;
+  } else {
+    cout << "❌ Tests failed!!! Values not matching" << endl;
+  }
 
   return 0;
 }
