@@ -1,0 +1,91 @@
+# Finding occurances of all characters and the total char count
+textFile = open(textFile.txt)
+charsAndTheirFrequencies = {}
+for char in textFile
+  in char in charsAndTheirFrequencies
+    charsAndTheirFrequencies[char] += 1
+  else
+    charsAndTheirFrequencies[char] = 0
+  totalCharCount += 1
+
+
+# Build minheap out of the UNIQUE chars in the file
+charOccuranceMinHeap = MinHeap()
+for char, occurance in charsAndTheirFrequencies.items()
+  charNode = Node(char = char, occurance = occurance)
+  charOccuranceMinHeap.insert(charNode)
+
+
+# Building huffman tree out of min heap
+huffmanTree = HuffmanTree()
+while charOccuranceMinHeap.size() > 1
+  # Get the two nodes with lowest occurance rate
+  firstCharNode = charOccuranceMinHeap.pop()
+  secondCharNode = charOccuranceMinHeap.pop()
+
+
+  parentNode = charNode("INTERNAL", firstCharNode.occurance + secondCharNode.occurance)
+  parentNode.left = firstCharNode
+  parentNode.right = secondCharNode
+  charOccuranceMinHeap.insert(parentNode)
+if(charOccuranceMinHeap.size() == 0){
+  cout << "Empty minheap passed in\n";
+  return -1;
+
+huffmanTree.root = charOccuranceMinHeap.pop();
+
+
+# Find codes by doing DFS to get all paths in tree
+charsAndTheirCodes = {}
+dfs(charsAndTheirCodes, huffmanTree.root, path)
+
+
+# Go through each char in original file, look up its code in dictionary, then add that to a byte buffer
+# Once buffer hits 8 bytes append it to the new compressed file, stay within buffer bounds and add eof
+# code + padded at end if needed to reach full byte
+compressedFile = createFile("compressedFile")
+byteBuffer = ""
+for char in textFile
+  charCode = charsAndTheirCodes[char]
+  # If over size add to buffer until we reach a byte, then append it to file, continue until
+  # charCode emptied into buffer
+  for digit in charCode
+    if byteBuffer.size() == 8
+      appendByteToFile(byteBuffer, compressedFile)
+      byteBuffer = ""
+    byteBuffer += digit
+# After adding all bits then add eof code
+eofCode = charsAndTheirCodes["eof"]
+for digit in eofCode
+  if byteBuffer.size() == 8
+    appendByteToFile(bitsStringToByte(byteBuffer), compressedFile)
+    byteBuffer = ""
+  byteBuffer += digit
+# Add padding if we haven't reached a full byte and finally append it, completing the compressed file
+while byteBuffer.size() != 8
+  byteBuffer += '0'
+appendByteToFile(bitsStringToByte(byteBuffer), compressedFile)
+
+
+# Once you have that binary file, then make another file which stores the vector minheap
+# so you will have a folder that holds huffman tree and minheap files
+minheapFile = createFile("minheap")
+makeFolder("compressed", compressedFile, minheapFile)
+
+
+# For decompression make new file to output to and build tree from minheap in same way we did earlier
+minHeap = deserializeMinheap(minheapFile)
+decompressedFile = createFile("decompressedFile")
+makeFolder("compressed", compressedFile, minheapFile)
+byteBuffer = ""
+while !eofReached
+  if byteBuffer.size() == 0
+    byteBuffer = readNextByte(compressedFile)
+  # Traverse through tree, subtracting the front of the byte for each path we take
+  # It's ok byte reaches 0, function just ends and we read next byte
+  char = traverseHuffmanTree(byte, foundChar)
+  if foundChar
+    if char == "eof"
+      eofReached = true
+      break
+    decompressedFile.append(char)
