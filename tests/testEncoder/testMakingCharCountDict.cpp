@@ -1,6 +1,7 @@
 // To run this copy and paste this into terminal
 /*
-g++ -std=c++23 -Wall -Werror  testMakingCharCountDict.cpp ../../src/Encode.cpp && ./a.out
+g++ -std=c++23 -Wall -Werror  testMakingCharCountDict.cpp ../../src/Encode.cpp ../../src/Minheap.cpp
+&& ./a.out
 */
 
 #include "../../src/Encode.h"

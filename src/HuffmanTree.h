@@ -1,8 +1,16 @@
 #ifndef HUFFMANTREE_H
 #define HUFFMANTREE_H
 
-struct HuffmanTreeNode {};
+#include "Minheap.h"
+#include <algorithm>
+#include <memory>
 
-class HuffmanTree {};
+class HuffmanTree {
+public:
+  unique_ptr<CharCountNode> root;
+  // make tree out of nodes then test dfs
+  void dfs();
+  void buildFromMinheap(Minheap minheap);
+};
 
 #endif

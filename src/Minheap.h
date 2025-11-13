@@ -9,16 +9,17 @@
 using namespace std;
 
 struct CharCountNode {
-  // Don't need children, heap index math on vector supplies that
+  // Char stored as string type for edge cases like parent nodes
   string charr;
   int count;
+  unique_ptr<CharCountNode> left;
+  unique_ptr<CharCountNode> right;
   CharCountNode(string charr, int count) : charr(charr), count(count) {}
 };
 
 class Minheap {
 public:
-  // Vector does not have to be heap allocated as it just stores pointers, not the objects
-  vector<unique_ptr<CharCountNode>> charCountMinheap;
+  vector<unique_ptr<CharCountNode>> m_charCountMinheap;
   void insert(string charr, int count);
   void percolateUp(int index);
   unique_ptr<CharCountNode> pop();

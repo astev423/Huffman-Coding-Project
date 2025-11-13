@@ -9,19 +9,15 @@
 class Encoder {
 private:
   // This doesn't have to be allocated as it just holds ascii unique chars and ints for them
-  unordered_map<string, int> charsAndTheirOccurences;
-  int totalCharCount;
-  unordered_map<string, string> charsAndTheirCodes;
-  vector<CharCountNode> charCountMinheap;
-  // HuffmanTree huffmanTree;
+  unordered_map<string, int> m_charsAndTheirOccurences;
+  int m_totalCharCount;
+  unordered_map<string, string> m_charsAndTheirCodes;
+  // HuffmanTree m_huffmanTree;
 
 public:
-  Encoder() : totalCharCount(0) {}
+  Minheap m_minheap;
+  Encoder() : m_totalCharCount(0) {}
   void createCharCountDict(ifstream& txtFile);
-  unordered_map<string, int>& getCharDict();
-  int getTotalCharCount();
-  void resetDict();
-  void resetCharCount();
   void createCharCountMinheap();
   /*
   void createHuffmanTreeFromMinheap();
@@ -29,5 +25,10 @@ public:
   void turnCodesIntoBinaryFile();
   void createAndInsertIntoCompressedFolder();
    */
+  // Getters and setters
+  unordered_map<string, int>& getCharDict();
+  int getTotalCharCount();
+  void resetDict();
+  void resetCharCount();
 };
 #endif

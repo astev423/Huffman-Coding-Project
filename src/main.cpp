@@ -10,10 +10,10 @@ int main() {
 
   if (mode == 1) {
     cout << "Compression mode: Carefully type the full name of your file (including the .txt)\n";
-    string filename = "";
-    cin >> filename;
-    // Make encoder, dynamically allocate for big files, stack might run out of memory
-    unique_ptr<Encoder> encoder = make_unique<Encoder>();
+    string filename = "test.txt";
+    // cin >> filename;
+    //  Make encoder, dynamically allocate for big files, stack might run out of memory
+    Encoder encoder;
     ifstream txtFile(filename);
     if (!txtFile.is_open()) {
       cout << "Failed to open text file, make sure its spelled correctly (case sensitive)\n";
@@ -21,8 +21,8 @@ int main() {
     }
 
     // Now make the data structures we need to start compressing
-    encoder->createCharCountDict(txtFile);
-    encoder->createCharCountMinheap();
+    encoder.createCharCountDict(txtFile);
+    encoder.createCharCountMinheap();
     /*
     encoder->createHuffmanTreeFromMinheap();
 

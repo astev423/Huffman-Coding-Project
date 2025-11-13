@@ -34,8 +34,8 @@ void testInsertion() {
   minheap->insert("h", 10);
   minheap->insert("i", 40);
   minheap->insert("j", 0);
-  for (size_t index = 0; index < minheap->charCountMinheap.size(); ++index) {
-    const unique_ptr<CharCountNode>& node = minheap->charCountMinheap[index];
+  for (size_t index = 0; index < minheap->m_charCountMinheap.size(); ++index) {
+    const unique_ptr<CharCountNode>& node = minheap->m_charCountMinheap[index];
     if (node->charr != expectedChars[index]) {
       cerr << "❌ Char is " << node->charr << ", but expected " << expectedChars[index] << endl;
       cerr << "❌ Test on insertion failed!" << endl;
@@ -57,7 +57,7 @@ void testPopping() {
   minheap->insert("f", 4903249);
   unique_ptr<CharCountNode> top;
   int index = 0;
-  while (minheap->charCountMinheap.size() > 0) {
+  while (minheap->m_charCountMinheap.size() > 0) {
     top = minheap->pop();
     if (top->charr != expectedTopChars[index]) {
       cerr << "❌ Char " << top->charr << " is on top, but expected " << expectedTopChars[index]

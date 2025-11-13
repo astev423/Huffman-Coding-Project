@@ -4,15 +4,15 @@
 void Minheap::insert(string charr, int count) {
   // Make new node for given parameters and percolate up so heap keeps structure
   // Use emplace back to avoid unnesecary copy
-  charCountMinheap.emplace_back(make_unique<CharCountNode>(charr, count));
-  percolateUp(charCountMinheap.size() - 1);
+  m_charCountMinheap.emplace_back(make_unique<CharCountNode>(charr, count));
+  percolateUp(m_charCountMinheap.size() - 1);
 }
 
 void Minheap::percolateUp(int index) {
   while (index > 0) {
     int parentIndex = (index - 1) / 2;
-    if (charCountMinheap[index]->count < charCountMinheap[parentIndex]->count) {
-      swap(charCountMinheap[index], charCountMinheap[parentIndex]);
+    if (m_charCountMinheap[index]->count < m_charCountMinheap[parentIndex]->count) {
+      swap(m_charCountMinheap[index], m_charCountMinheap[parentIndex]);
       index = parentIndex;
     } else
       break;
@@ -20,24 +20,24 @@ void Minheap::percolateUp(int index) {
 }
 
 unique_ptr<CharCountNode> Minheap::pop() {
-  if (charCountMinheap.size() == 0) {
+  if (m_charCountMinheap.size() == 0) {
     cerr << "ALERT ALERT, FATAL ERROR, TRYING TO POP FROM EMPTY HEAP" << endl;
     return nullptr;
   }
 
   // Since we are using unique ptrs to get access to the top I need to transfer ownership
   // After ownership is transfered top element in the vector will be null
-  unique_ptr<CharCountNode> minCharNode = std::move(charCountMinheap[0]);
+  unique_ptr<CharCountNode> minCharNode = std::move(m_charCountMinheap[0]);
   // If size is one just shrink vector, no need to percolate
-  if (charCountMinheap.size() == 1) {
-    charCountMinheap.pop_back();
+  if (m_charCountMinheap.size() == 1) {
+    m_charCountMinheap.pop_back();
     return minCharNode;
   }
 
   // Now move the last element of the heap to the top
-  charCountMinheap[0] = std::move(charCountMinheap.back());
+  m_charCountMinheap[0] = std::move(m_charCountMinheap.back());
   // Since it vector lost ownership last element is nullptr, we now remove it
-  charCountMinheap.pop_back();
+  m_charCountMinheap.pop_back();
   percolateDown(0);
 
   return minCharNode;
@@ -45,7 +45,7 @@ unique_ptr<CharCountNode> Minheap::pop() {
 
 void Minheap::percolateDown(int index) {
   // Vector size is in size_t so we need to convert it to an int to use in conditionals
-  int heapSize = static_cast<int>(charCountMinheap.size());
+  int heapSize = static_cast<int>(m_charCountMinheap.size());
 
   while (true) {
     int leftIndex = 2 * index + 1;
@@ -54,11 +54,11 @@ void Minheap::percolateDown(int index) {
 
     // Make sure we stay in bounds, swap if we find smaller child count
     if (leftIndex < heapSize &&
-        charCountMinheap[leftIndex]->count < charCountMinheap[smallestIndex]->count) {
+        m_charCountMinheap[leftIndex]->count < m_charCountMinheap[smallestIndex]->count) {
       smallestIndex = leftIndex;
     }
     if (rightIndex < heapSize &&
-        charCountMinheap[rightIndex]->count < charCountMinheap[smallestIndex]->count) {
+        m_charCountMinheap[rightIndex]->count < m_charCountMinheap[smallestIndex]->count) {
       smallestIndex = rightIndex;
     }
     // If no change happened that means heap properties sastified
@@ -66,15 +66,20 @@ void Minheap::percolateDown(int index) {
       break;
     }
 
-    swap(charCountMinheap[index], charCountMinheap[smallestIndex]);
+    swap(m_charCountMinheap[index], m_charCountMinheap[smallestIndex]);
     index = smallestIndex;
   }
 }
 
 void Minheap::printMinheap() {
+  if (m_charCountMinheap.size() == 0) {
+    cout << "Minheap is empty!!" << endl;
+    return;
+  }
+
   // Unique ptr not copiable but we can have references to it
-  cout << "top is " << charCountMinheap[0]->charr << endl;
-  for (const unique_ptr<CharCountNode>& node : charCountMinheap) {
+  cout << "top is " << m_charCountMinheap[0]->charr << endl;
+  for (const unique_ptr<CharCountNode>& node : m_charCountMinheap) {
     cout << "Char is " << node->charr << ", count is " << node->count << endl;
   }
 }

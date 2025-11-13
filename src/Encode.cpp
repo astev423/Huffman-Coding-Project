@@ -10,8 +10,8 @@ void Encoder::createCharCountDict(ifstream& txtFile) {
   if (txtFile.is_open()) {
     while (txtFile.get(charr)) {
       string key(1, charr);
-      ++charsAndTheirOccurences[key];
-      ++totalCharCount;
+      ++m_charsAndTheirOccurences[key];
+      ++m_totalCharCount;
       // for debugging special chars
       // cout << charr << endl;
       // if (!isalnum(static_cast<unsigned char>(charr))) {
@@ -24,9 +24,15 @@ void Encoder::createCharCountDict(ifstream& txtFile) {
   }
 }
 
-unordered_map<string, int>& Encoder::getCharDict() { return charsAndTheirOccurences; }
+// Insert all dictionary values to make minheap
+void Encoder::createCharCountMinheap() {
+  for (const auto& [charr, count] : m_charsAndTheirOccurences) {
+    m_minheap.insert(charr, count);
+  }
+}
 
-int Encoder::getTotalCharCount() { return totalCharCount; }
-
-void Encoder::resetDict() { charsAndTheirOccurences.clear(); }
-void Encoder::resetCharCount() { totalCharCount = 0; }
+// Getters and setters
+unordered_map<string, int>& Encoder::getCharDict() { return m_charsAndTheirOccurences; }
+int Encoder::getTotalCharCount() { return m_totalCharCount; }
+void Encoder::resetDict() { m_charsAndTheirOccurences.clear(); }
+void Encoder::resetCharCount() { m_totalCharCount = 0; }
