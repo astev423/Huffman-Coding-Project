@@ -20,11 +20,26 @@ void HuffmanTree::buildFromMinheap(Minheap& minheap) {
   root = minheap.pop();
 }
 
+void HuffmanTree::getCharCodesDFS(const unique_ptr<CharCountNode>& root,
+                                  unordered_map<string, string>& charsAndCodes, string curPath) {
+  if (root == nullptr) {
+    return;
+  }
+
+  if (root->charr != "INTERNAL") {
+    charsAndCodes[root->charr] = curPath;
+  }
+  string pathCopy = curPath;
+  getCharCodesDFS(root->left, charsAndCodes, curPath.append("0"));
+  getCharCodesDFS(root->right, charsAndCodes, pathCopy.append("1"));
+}
+
 void HuffmanTree::postOrderTraversal(const unique_ptr<CharCountNode>& root, int& leavesVisited,
                                      int& charsVisited) {
   if (root == nullptr) {
     return;
   }
+
   if (root->charr != "INTERNAL") {
     ++charsVisited;
   }

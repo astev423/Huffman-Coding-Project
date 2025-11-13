@@ -39,6 +39,14 @@ int main() {
     cout << "❌ Tests failed!!! Values not matching" << endl;
   }
 
+  // Test codes now
+  unordered_map<string, string> charsAndCodes;
+  string curPath = "";
+  newHuffmanTree.getCharCodesDFS(newHuffmanTree.root, charsAndCodes, curPath);
+  for (const auto& [key, value] : charsAndCodes) {
+    std::cout << "Char: " << key << ", code: " << value << std::endl;
+  }
+
   return 0;
 }
 

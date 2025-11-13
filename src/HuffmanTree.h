@@ -2,6 +2,8 @@
 #define HUFFMANTREE_H
 
 #include "Minheap.h"
+#include <memory>
+#include <unordered_map>
 
 class HuffmanTree {
 public:
@@ -10,6 +12,8 @@ public:
   void buildFromMinheap(Minheap& minheap);
   void postOrderTraversal(const unique_ptr<CharCountNode>& root, int& leavesVisited,
                           int& charsVisited);
+  void getCharCodesDFS(const unique_ptr<CharCountNode>& root,
+                       unordered_map<string, string>& charsAndCodes, string curPath);
 };
 
 #endif
