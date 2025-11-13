@@ -1,10 +1,15 @@
 #include "Minheap.h"
+#include <algorithm>
 #include <memory>
 
 void Minheap::insert(string charr, int count) {
-  // Make new node for given parameters and percolate up so heap keeps structure
-  // Use emplace back to avoid unnesecary copy
-  m_charCountMinheap.emplace_back(make_unique<CharCountNode>(charr, count));
+  m_charCountMinheap.push_back(make_unique<CharCountNode>(charr, count));
+  percolateUp(m_charCountMinheap.size() - 1);
+}
+
+void Minheap::insertNode(unique_ptr<CharCountNode>& node) {
+  // Push_back makes a copy, so we must use move to transfer ownership to vector
+  m_charCountMinheap.push_back(std::move(node));
   percolateUp(m_charCountMinheap.size() - 1);
 }
 

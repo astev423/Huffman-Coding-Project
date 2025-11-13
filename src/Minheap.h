@@ -20,7 +20,9 @@ struct CharCountNode {
 class Minheap {
 public:
   vector<unique_ptr<CharCountNode>> m_charCountMinheap;
+
   void insert(string charr, int count);
+  void insertNode(unique_ptr<CharCountNode>& node);
   void percolateUp(int index);
   unique_ptr<CharCountNode> pop();
   void percolateDown(int index);

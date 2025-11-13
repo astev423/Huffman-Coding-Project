@@ -23,6 +23,11 @@ int main() {
     // Now make the data structures we need to start compressing
     encoder.createCharCountDict(txtFile);
     encoder.createCharCountMinheap();
+    // Don't compress empty files as that won't work with huffman tree
+    if (encoder.m_minheap.m_charCountMinheap.size() == 0) {
+      cout << "Empty minheap passed in\n";
+      return -1;
+    }
     /*
     encoder->createHuffmanTreeFromMinheap();
 
