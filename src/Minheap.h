@@ -12,6 +12,7 @@ struct CharCountNode {
   // Char stored as string type for edge cases like parent nodes
   string charr;
   int count;
+  // Unique ptrs default to nullptr when not defined
   unique_ptr<CharCountNode> left;
   unique_ptr<CharCountNode> right;
   CharCountNode(string charr, int count) : charr(charr), count(count) {}

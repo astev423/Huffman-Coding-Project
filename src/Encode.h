@@ -23,9 +23,9 @@ public:
   void createHuffmanTreeFromMinheap();
   void createCharCodeDict();
   void makeCompressedFolder(ifstream& txtFile);
-  char convertStrToHex(string str);
+  char convertStrToByte(string str);
   void serializeCodes(ostream& serializedCode, ifstream& txtFile);
-  void serializeHeap(ostream& serializedCode, ifstream& txtFile);
+  void serializeHeap(ostream& serializedCode);
 
   // Getters and setters
   unordered_map<string, int>& getCharDict();

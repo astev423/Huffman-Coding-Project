@@ -1,5 +1,7 @@
 #include "Encode.h"
 #include "HuffmanTree.h"
+#include "Minheap.h"
+#include <iomanip>
 
 void Encoder::createCharCountDict(ifstream& txtFile) {
   char charr;
@@ -29,7 +31,7 @@ void Encoder::createCharCodeDict() {
   m_huffmanTree.getCharCodesDFS(m_huffmanTree.root, m_charsAndCodes, "");
 }
 
-char Encoder::convertStrToHex(string str) {
+char Encoder::convertStrToByte(string str) {
   int intByte = 0;
   for (char c : str) {
     if (c == '1')
@@ -47,31 +49,53 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
     return;
   }
 
-  string byte = "";
-  char charr;
+  // Cpp file library stuff for getting size of file. Seekg moves read spot, tellg reports spot
+  txtFile.seekg(0, std::ios::end);
+  auto end1 = txtFile.tellg();
+  std::cout << setprecision(3) << "File size originally: " << static_cast<float>(end1) / 1000
+            << " KB\n";
+  txtFile.seekg(0, std::ios::beg);
+
   // Loop that gets each char from file, finds its code, and appends that to new file
+  string strByte = "";
+  char charr;
   while (txtFile.get(charr)) {
     string key(1, charr);
     string codeStr = m_charsAndCodes.at(key);
     for (char bit : codeStr) {
-      byte += bit;
-      if (byte.size() == 8) {
-        char hex = convertStrToHex(byte);
-        serializedCode.put(hex);
-        byte = "";
+      strByte += bit;
+      if (strByte.size() == 8) {
+        serializedCode.put(convertStrToByte(strByte));
+        strByte = "";
       }
     }
   }
 
   // Add padding to make byte full 8 bits
-  while (byte.size() != 8) {
-    byte += "0";
+  while (strByte.size() != 8) {
+    strByte += "0";
   }
-  char hex = convertStrToHex(byte);
-  serializedCode.put(hex);
+  char byteChar = convertStrToByte(strByte);
+  serializedCode.put(byteChar);
+
+  // Cpp file library stuff for getting size of file
+  auto end2 = serializedCode.tellp();
+  std::cout << setprecision(3) << "File compressed down to " << static_cast<float>(end2) / 1000
+            << " KB\n";
 }
 
-void Encoder::serializeHeap(ostream& serializedHeap, ifstream& txtFile) {}
+void Encoder::serializeHeap(ostream& serializedHeap) {
+  // Since heap is unique_ptr we can't serialize it directly but we can easily rebuild it from this
+  for (auto [charr, count] : m_charsAndTheirOccurences) {
+    if (charr == "\n") {
+      serializedHeap << "NEWLINE" << '\n' << count << '\n';
+      cout << "NEWLINE" << '\n' << count << '\n';
+    } else {
+      serializedHeap << charr << '\n' << count << '\n';
+      cout << charr << '\n' << count << '\n';
+    }
+  }
+}
 
 void Encoder::makeCompressedFolder(ifstream& txtFile) {
   // Make new folder and files
@@ -88,6 +112,7 @@ void Encoder::makeCompressedFolder(ifstream& txtFile) {
 
   // Serialize data
   serializeCodes(serializedCode, txtFile);
+  serializeHeap(serializedHeap);
 }
 
 // Getters and setters
