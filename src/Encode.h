@@ -10,8 +10,8 @@
 
 class Encoder {
 private:
-  unordered_map<string, int> m_charsAndTheirOccurences;
-  int m_totalCharCount;
+  unordered_map<string, unsigned> m_charsAndTheirOccurences;
+  unsigned m_totalCharCount;
   unordered_map<string, string> m_charsAndCodes;
   HuffmanTree m_huffmanTree;
   Minheap m_minheap;
@@ -28,10 +28,10 @@ public:
   void serializeHeap(ostream& serializedCode);
 
   // Getters and setters
-  unordered_map<string, int>& getCharDict();
+  unordered_map<string, unsigned>& getCharDict();
   unordered_map<string, string> getCharCodes();
-  int getMinheapSize();
-  int getTotalCharCount();
+  unsigned getMinheapSize();
+  unsigned getTotalCharCount();
   void resetDict();
   void resetCharCount();
 };

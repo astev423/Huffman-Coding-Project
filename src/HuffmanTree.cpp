@@ -34,8 +34,8 @@ void HuffmanTree::getCharCodesDFS(const unique_ptr<CharCountNode>& root,
   getCharCodesDFS(root->right, charsAndCodes, pathCopy.append("1"));
 }
 
-void HuffmanTree::postOrderTraversal(const unique_ptr<CharCountNode>& root, int& leavesVisited,
-                                     int& charsVisited) {
+void HuffmanTree::postOrderTraversal(const unique_ptr<CharCountNode>& root, unsigned& leavesVisited,
+                                     unsigned& charsVisited) {
   if (root == nullptr) {
     return;
   }

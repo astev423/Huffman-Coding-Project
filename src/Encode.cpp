@@ -116,9 +116,9 @@ void Encoder::makeCompressedFolder(ifstream& txtFile) {
 }
 
 // Getters and setters
-unordered_map<string, int>& Encoder::getCharDict() { return m_charsAndTheirOccurences; }
+unordered_map<string, unsigned>& Encoder::getCharDict() { return m_charsAndTheirOccurences; }
 unordered_map<string, string> Encoder::getCharCodes() { return m_charsAndCodes; };
-int Encoder::getTotalCharCount() { return m_totalCharCount; }
-int Encoder::getMinheapSize() { return m_minheap.m_charCountMinheap.size(); }
+unsigned Encoder::getTotalCharCount() { return m_totalCharCount; }
+unsigned Encoder::getMinheapSize() { return m_minheap.m_charCountMinheap.size(); }
 void Encoder::resetDict() { m_charsAndTheirOccurences.clear(); }
 void Encoder::resetCharCount() { m_totalCharCount = 0; }

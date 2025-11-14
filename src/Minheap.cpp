@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <memory>
 
-void Minheap::insert(string charr, int count) {
+void Minheap::insert(string charr, unsigned count) {
   m_charCountMinheap.push_back(make_unique<CharCountNode>(charr, count));
   percolateUp(m_charCountMinheap.size() - 1);
 }
@@ -13,9 +13,9 @@ void Minheap::insertNode(unique_ptr<CharCountNode>& node) {
   percolateUp(m_charCountMinheap.size() - 1);
 }
 
-void Minheap::percolateUp(int index) {
+void Minheap::percolateUp(unsigned index) {
   while (index > 0) {
-    int parentIndex = (index - 1) / 2;
+    unsigned parentIndex = (index - 1) / 2;
     if (m_charCountMinheap[index]->count < m_charCountMinheap[parentIndex]->count) {
       swap(m_charCountMinheap[index], m_charCountMinheap[parentIndex]);
       index = parentIndex;
@@ -48,14 +48,14 @@ unique_ptr<CharCountNode> Minheap::pop() {
   return minCharNode;
 }
 
-void Minheap::percolateDown(int index) {
-  // Vector size is in size_t so we need to convert it to an int to use in conditionals
-  int heapSize = static_cast<int>(m_charCountMinheap.size());
+void Minheap::percolateDown(unsigned index) {
+  // Vector size is in size_t so we need to convert it to an unsigned to use in conditionals
+  unsigned heapSize = static_cast<unsigned>(m_charCountMinheap.size());
 
   while (true) {
-    int leftIndex = 2 * index + 1;
-    int rightIndex = 2 * index + 2;
-    int smallestIndex = index;
+    unsigned leftIndex = 2 * index + 1;
+    unsigned rightIndex = 2 * index + 2;
+    unsigned smallestIndex = index;
 
     // Make sure we stay in bounds, swap if we find smaller child count
     if (leftIndex < heapSize &&

@@ -52,7 +52,7 @@ for char in textFile
   # charCode emptied into buffer
   for digit in charCode
     if byteBuffer.size() == 8
-      appendByteToFile(byteBuffer, compressedFile)
+      appendByteToFile(bitsStringToByte(byteBuffer), compressedFile)
       byteBuffer = ""
     byteBuffer += digit
 # Add padding if we haven't reached a full byte and finally append it, completing the compressed file
