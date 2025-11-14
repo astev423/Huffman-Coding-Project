@@ -16,8 +16,7 @@ void compareExpectedAndReturnedValues(const unordered_map<string, int>& returned
                                       int fileNum);
 
 int main() {
-  // Make encoder, allocate for big files, stack might run out of memory
-  unique_ptr<Encoder> encoder = make_unique<Encoder>();
+  Encoder encoder;
   vector<unordered_map<string, int>> expectedDicts;
   vector<int> expectedTotalChars;
   makeExpectedDictsAndCharCounts(expectedTotalChars, expectedDicts);
@@ -32,14 +31,14 @@ int main() {
       cerr << "Failed to open file " << filenum << ". Exiting program" << endl;
       return 1;
     }
-    encoder->createCharCountDict(txtFile);
+    encoder.createCharCountDict(txtFile);
 
     // After creating dict from file compare it to expected and reset values for next file
-    compareExpectedAndReturnedValues(encoder->getCharDict(), expectedDicts[filenum],
-                                     encoder->getTotalCharCount(), expectedTotalChars[filenum],
+    compareExpectedAndReturnedValues(encoder.getCharDict(), expectedDicts[filenum],
+                                     encoder.getTotalCharCount(), expectedTotalChars[filenum],
                                      fails, filenum);
-    encoder->resetDict();
-    encoder->resetCharCount();
+    encoder.resetDict();
+    encoder.resetCharCount();
   }
   cout << filesToTest - fails << " out of " << filesToTest << " cases passed!\n";
 }

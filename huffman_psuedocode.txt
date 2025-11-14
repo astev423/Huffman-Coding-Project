@@ -43,8 +43,7 @@ dfs(charsAndTheirCodes, huffmanTree.root, path)
 
 
 # Go through each char in original file, look up its code in dictionary, then add that to a byte buffer
-# Once buffer hits 8 bytes append it to the new compressed file, stay within buffer bounds and add eof
-# code + padded at end if needed to reach full byte
+# pad at end to get full byte or info might get lost
 compressedFile = createFile("compressedFile")
 byteBuffer = ""
 for char in textFile
@@ -56,13 +55,6 @@ for char in textFile
       appendByteToFile(byteBuffer, compressedFile)
       byteBuffer = ""
     byteBuffer += digit
-# After adding all bits then add eof code
-eofCode = charsAndTheirCodes["eof"]
-for digit in eofCode
-  if byteBuffer.size() == 8
-    appendByteToFile(bitsStringToByte(byteBuffer), compressedFile)
-    byteBuffer = ""
-  byteBuffer += digit
 # Add padding if we haven't reached a full byte and finally append it, completing the compressed file
 while byteBuffer.size() != 8
   byteBuffer += '0'
@@ -73,6 +65,7 @@ appendByteToFile(bitsStringToByte(byteBuffer), compressedFile)
 # so you will have a folder that holds huffman tree and minheap files
 minheapFile = createFile("minheap")
 makeFolder("compressed", compressedFile, minheapFile)
+serializeHeap(charOccuranceMinHeap, minheapFile)
 
 
 # For decompression make new file to output to and build tree from minheap in same way we did earlier
@@ -80,14 +73,12 @@ minHeap = deserializeMinheap(minheapFile)
 decompressedFile = createFile("decompressedFile")
 makeFolder("compressed", compressedFile, minheapFile)
 byteBuffer = ""
-while !eofReached
+while totalCharCount > 0
   if byteBuffer.size() == 0
     byteBuffer = readNextByte(compressedFile)
   # Traverse through tree, subtracting the front of the byte for each path we take
   # It's ok byte reaches 0, function just ends and we read next byte
   char = traverseHuffmanTree(byte, foundChar)
   if foundChar
-    if char == "eof"
-      eofReached = true
-      break
     decompressedFile.append(char)
+    totalCharCount -= 1

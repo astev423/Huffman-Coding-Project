@@ -1,8 +1,5 @@
 #include "Encode.h"
-
-// First open a file
-// dynamically allocate dictionary because it will take up a lot of space
-// charsAndTheirOccurences = make_unique<unordered_map<string, int>>();
+#include "HuffmanTree.h"
 
 void Encoder::createCharCountDict(ifstream& txtFile) {
   char charr;
@@ -12,15 +9,10 @@ void Encoder::createCharCountDict(ifstream& txtFile) {
       string key(1, charr);
       ++m_charsAndTheirOccurences[key];
       ++m_totalCharCount;
-      // for debugging special chars
-      // cout << charr << endl;
-      // if (!isalnum(static_cast<unsigned char>(charr))) {
-      // cout << "Special char: '" << charr << "' (ASCII " << static_cast<int>(charr) << ")\n";
-      //}
     }
     txtFile.close();
   } else {
-    cerr << "Error: Unable to open file.\n";
+    cerr << "Error: Unable to open file and create CharCountDict.\n";
   }
 }
 
@@ -31,8 +23,77 @@ void Encoder::createCharCountMinheap() {
   }
 }
 
+void Encoder::createHuffmanTreeFromMinheap() { m_huffmanTree.buildFromMinheap(m_minheap); }
+
+void Encoder::createCharCodeDict() {
+  m_huffmanTree.getCharCodesDFS(m_huffmanTree.root, m_charsAndCodes, "");
+}
+
+char Encoder::convertStrToHex(string str) {
+  int intByte = 0;
+  for (char c : str) {
+    if (c == '1')
+      intByte = (intByte << 1) | 1;
+    else
+      intByte = (intByte << 1) | 0;
+  }
+
+  return static_cast<char>(intByte);
+}
+
+void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
+  if (!txtFile.is_open()) {
+    std::cout << "txtfile couldn't open in serializeCodes" << std::endl;
+    return;
+  }
+
+  string byte = "";
+  char charr;
+  // Loop that gets each char from file, finds its code, and appends that to new file
+  while (txtFile.get(charr)) {
+    string key(1, charr);
+    string codeStr = m_charsAndCodes.at(key);
+    for (char bit : codeStr) {
+      byte += bit;
+      if (byte.size() == 8) {
+        char hex = convertStrToHex(byte);
+        serializedCode.put(hex);
+        byte = "";
+      }
+    }
+  }
+
+  // Add padding to make byte full 8 bits
+  while (byte.size() != 8) {
+    byte += "0";
+  }
+  char hex = convertStrToHex(byte);
+  serializedCode.put(hex);
+}
+
+void Encoder::serializeHeap(ostream& serializedHeap, ifstream& txtFile) {}
+
+void Encoder::makeCompressedFolder(ifstream& txtFile) {
+  // Make new folder and files
+  filesystem::path dir = "compressed";
+  filesystem::create_directory(dir);
+  ofstream serializedCode(dir / "serializedCode.txt");
+  ofstream serializedHeap(dir / "serializedHeap.txt");
+  if (!serializedCode || !serializedHeap) {
+    cerr << "Serialized files couldn't be made" << endl;
+    return;
+  }
+
+  // Put total amount of chars of file in first 4 bytes of new file
+
+  // Serialize data
+  serializeCodes(serializedCode, txtFile);
+}
+
 // Getters and setters
 unordered_map<string, int>& Encoder::getCharDict() { return m_charsAndTheirOccurences; }
+unordered_map<string, string> Encoder::getCharCodes() { return m_charsAndCodes; };
 int Encoder::getTotalCharCount() { return m_totalCharCount; }
+int Encoder::getMinheapSize() { return m_minheap.m_charCountMinheap.size(); }
 void Encoder::resetDict() { m_charsAndTheirOccurences.clear(); }
 void Encoder::resetCharCount() { m_totalCharCount = 0; }

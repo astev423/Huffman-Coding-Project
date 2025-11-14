@@ -1,32 +1,36 @@
 #ifndef ENCODE_H
 #define ENCODE_H
 
+#include "HuffmanTree.h"
 #include "Minheap.h"
 #include <cctype>
+#include <filesystem>
 #include <fstream>
 #include <unordered_map>
 
 class Encoder {
 private:
-  // This doesn't have to be allocated as it just holds ascii unique chars and ints for them
   unordered_map<string, int> m_charsAndTheirOccurences;
   int m_totalCharCount;
-  unordered_map<string, string> m_charsAndTheirCodes;
-  // HuffmanTree m_huffmanTree;
+  unordered_map<string, string> m_charsAndCodes;
+  HuffmanTree m_huffmanTree;
+  Minheap m_minheap;
 
 public:
-  Minheap m_minheap;
   Encoder() : m_totalCharCount(0) {}
   void createCharCountDict(ifstream& txtFile);
   void createCharCountMinheap();
-  /*
   void createHuffmanTreeFromMinheap();
-  void mapCharsToTreeCodes();
-  void turnCodesIntoBinaryFile();
-  void createAndInsertIntoCompressedFolder();
-   */
+  void createCharCodeDict();
+  void makeCompressedFolder(ifstream& txtFile);
+  char convertStrToHex(string str);
+  void serializeCodes(ostream& serializedCode, ifstream& txtFile);
+  void serializeHeap(ostream& serializedCode, ifstream& txtFile);
+
   // Getters and setters
   unordered_map<string, int>& getCharDict();
+  unordered_map<string, string> getCharCodes();
+  int getMinheapSize();
   int getTotalCharCount();
   void resetDict();
   void resetCharCount();

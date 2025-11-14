@@ -10,15 +10,28 @@ g++ -std=c++23 -Wall -Werror  testHuffmanTree.cpp ../../src/HuffmanTree.cpp ../.
 
 Minheap makeMinheap();
 void buildHuffmanTree(HuffmanTree& huffmanTree);
+void simpleTreeTest();
+void testNodesAndCodes();
 
 int main() {
+  simpleTreeTest();
+  testNodesAndCodes();
+
+  return 0;
+}
+
+// Just for testing very basics of tree
+void simpleTreeTest() {
   HuffmanTree huffmanTree;
   buildHuffmanTree(huffmanTree);
   std::cout << "now running postorder dfs!!!!!" << std::endl;
   int tempNum1 = 0;
   int tempNum2 = 0;
   huffmanTree.postOrderTraversal(huffmanTree.root, tempNum1, tempNum2);
+}
 
+// Builds a decently complex tree and prints out related info on it
+void testNodesAndCodes() {
   std::cout << std::endl;
   std::cout << "making new tree" << std::endl;
   HuffmanTree newHuffmanTree;
@@ -40,17 +53,23 @@ int main() {
   }
 
   // Test codes now
+  unordered_map<string, string> expectedCodes = {
+      {"i", "1"},    {"e", "01100"},   {"b", "0111"}, {"1", "0110101"}, {"h", "010"}, {"c", "0011"},
+      {"f", "0010"}, {"j", "0110100"}, {"g", "0001"}, {"d", "011011"},  {"a", "0000"}};
   unordered_map<string, string> charsAndCodes;
   string curPath = "";
   newHuffmanTree.getCharCodesDFS(newHuffmanTree.root, charsAndCodes, curPath);
-  for (const auto& [key, value] : charsAndCodes) {
-    std::cout << "Char: " << key << ", code: " << value << std::endl;
+  if (expectedCodes == charsAndCodes) {
+    cout << "✅ Codes match expected codes!" << endl;
+  } else {
+    cout << "❌ Codes DON'T match expected codes" << endl;
   }
-
-  return 0;
+  // uncomment to check generated codes if something went wrong
+  // for (const auto& [key, value] : charsAndCodes) {
+  //  std::cout << "Char: " << key << ", code: " << value << std::endl;
+  //}
 }
 
-// Just for testing very basics of tree
 void buildHuffmanTree(HuffmanTree& huffmanTree) {
   unique_ptr<CharCountNode> root = make_unique<CharCountNode>("INTERNAL", 5);
   unique_ptr<CharCountNode> child1 = make_unique<CharCountNode>("b", 2);
