@@ -1,3 +1,4 @@
+#include "Decoder.h"
 #include "Encode.h"
 
 int main() {
@@ -6,7 +7,7 @@ int main() {
   cout << "Make sure file/folder you want to compress/decompress in in current directory\n";
   cout << "Type 1 if you would like to compress or type 2 to decode\n";
   // cin >> mode;
-  mode = 1;
+  mode = 2;
 
   if (mode == 1) {
     cout << "Compression mode: Carefully type the full name of your file (including the .txt)\n";
@@ -39,7 +40,15 @@ int main() {
     txtFile.close();
     cout << "Compression complete! Your file 'compressed.txt' is in the folder 'compressed'\n";
   } else if (mode == 2) {
-    cout << "Decompression mode. type the name of the folder with the compressed files" << endl;
+    cout << "Decompression mode. Looking for compressed folder" << endl;
+    Decoder decoder;
+    ifstream binaryFile("compressed/serializedHeap.txt");
+    if (!binaryFile.is_open()) {
+      cout << "Failed to open compressed file, ensure the compressed folder is in this directory/n";
+      return -1;
+    }
+
+    decoder.deserializeMinheap(binaryFile);
   } else {
     cout << "Please enter just 1 or 0\n";
     return -1;

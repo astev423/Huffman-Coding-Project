@@ -6,16 +6,12 @@
 void Encoder::createCharCountDict(ifstream& txtFile) {
   char charr;
 
-  if (txtFile.is_open()) {
-    while (txtFile.get(charr)) {
-      string key(1, charr);
-      ++m_charsAndTheirOccurences[key];
-      ++m_totalCharCount;
-    }
-    txtFile.close();
-  } else {
-    cerr << "Error: Unable to open file and create CharCountDict.\n";
+  while (txtFile.get(charr)) {
+    string key(1, charr);
+    ++m_charsAndTheirOccurences[key];
+    ++m_totalCharCount;
   }
+  txtFile.close();
 }
 
 // Insert all dictionary values to make minheap
@@ -88,11 +84,9 @@ void Encoder::serializeHeap(ostream& serializedHeap) {
   // Since heap is unique_ptr we can't serialize it directly but we can easily rebuild it from this
   for (auto [charr, count] : m_charsAndTheirOccurences) {
     if (charr == "\n") {
-      serializedHeap << "NEWLINE" << '\n' << count << '\n';
-      cout << "NEWLINE" << '\n' << count << '\n';
+      serializedHeap << "NEWLINE" << ' ' << count << '\n';
     } else {
-      serializedHeap << charr << '\n' << count << '\n';
-      cout << charr << '\n' << count << '\n';
+      serializedHeap << charr << ' ' << count << '\n';
     }
   }
 }

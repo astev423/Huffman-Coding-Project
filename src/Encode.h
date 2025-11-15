@@ -10,13 +10,13 @@
 
 class Encoder {
 private:
-  unordered_map<string, unsigned> m_charsAndTheirOccurences;
   unsigned m_totalCharCount;
-  unordered_map<string, string> m_charsAndCodes;
   HuffmanTree m_huffmanTree;
   Minheap m_minheap;
 
 public:
+  unordered_map<string, unsigned> m_charsAndTheirOccurences;
+  unordered_map<string, string> m_charsAndCodes;
   Encoder() : m_totalCharCount(0) {}
   void createCharCountDict(ifstream& txtFile);
   void createCharCountMinheap();
