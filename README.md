@@ -13,7 +13,7 @@ and then
 ```
 ./HuffmanCoder
 ```
-The terminal output from the program will explain the rest. Just make sure you have a .txt file ready in the same folder.
+The terminal output from the program will explain the rest. Just make sure you have a .txt file ready in the same folder as the executable.
 
 # Notes on the project
 -I wanted to learn how to use smart pointers, which I think I did successfully, but they were
@@ -23,3 +23,12 @@ definitely a challenge.
 of code without testing, because if something goes wrong you have to search a giant file to find
 it, massive headache. Instead build small components, test each one, then build bigger components
 with those.
+
+-Working with bits was incredibly challenging. I think C++ was not designed to work with bits so
+I had to use libraries like bitset which were confusing to use and involved a lot of type conversion.
+
+-I forgot to make the Huffman tree and minheap use the chars as tiebreaker. This meant that if count
+was equal sometimes it would choose different nodes, which caused my binary file to get decoded wrongly.
+Thanks to the tests I quickly saw that the codes were different after remaking the tree, so I knew
+something was causing some ambiguity there. I knew it was the chars causing ambiguity because I thought
+about adding a tie breaker as chars but decided it was unnessecary. Turns out it was nessecary!

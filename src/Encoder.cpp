@@ -1,4 +1,4 @@
-#include "Encode.h"
+#include "Encoder.h"
 #include "HuffmanTree.h"
 #include "Minheap.h"
 #include <iomanip>
@@ -24,7 +24,7 @@ void Encoder::createCharCountMinheap() {
 void Encoder::createHuffmanTreeFromMinheap() { m_huffmanTree.buildFromMinheap(m_minheap); }
 
 void Encoder::createCharCodeDict() {
-  m_huffmanTree.getCharCodesDFS(m_huffmanTree.root, m_charsAndCodes, "");
+  m_huffmanTree.createCharCodesViaDFS(m_huffmanTree.root, m_charsAndCodes, "");
 }
 
 char Encoder::convertStrToByte(string str) {
@@ -81,6 +81,8 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
 }
 
 void Encoder::serializeHeap(ostream& serializedHeap) {
+  // Write size of heap so we know how much to decode
+  serializedHeap << m_totalCharCount << '\n';
   // Since heap is unique_ptr we can't serialize it directly but we can easily rebuild it from this
   for (auto [charr, count] : m_charsAndTheirOccurences) {
     if (charr == "\n") {
@@ -101,8 +103,6 @@ void Encoder::makeCompressedFolder(ifstream& txtFile) {
     cerr << "Serialized files couldn't be made" << endl;
     return;
   }
-
-  // Put total amount of chars of file in first 4 bytes of new file
 
   // Serialize data
   serializeCodes(serializedCode, txtFile);

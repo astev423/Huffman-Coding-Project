@@ -24,6 +24,7 @@ public:
 
   void insert(string charr, unsigned count);
   void insertNode(unique_ptr<CharCountNode>& node);
+  bool index1Smaller(unsigned index1, unsigned index2);
   void percolateUp(unsigned index);
   unique_ptr<CharCountNode> pop();
   void percolateDown(unsigned index);

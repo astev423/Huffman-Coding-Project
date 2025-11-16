@@ -13,10 +13,21 @@ void Minheap::insertNode(unique_ptr<CharCountNode>& node) {
   percolateUp(m_charCountMinheap.size() - 1);
 }
 
+// Swap based on count or if tie then based on alphabetical order
+bool Minheap::index1Smaller(unsigned index1, unsigned index2) {
+  const unique_ptr<CharCountNode>& node1 = m_charCountMinheap[index1];
+  const unique_ptr<CharCountNode>& node2 = m_charCountMinheap[index2];
+  if (node1->count != node2->count) {
+    return node1->count < node2->count;
+  }
+
+  return node1->charr < node2->charr;
+}
+
 void Minheap::percolateUp(unsigned index) {
   while (index > 0) {
     unsigned parentIndex = (index - 1) / 2;
-    if (m_charCountMinheap[index]->count < m_charCountMinheap[parentIndex]->count) {
+    if (index1Smaller(index, parentIndex)) {
       swap(m_charCountMinheap[index], m_charCountMinheap[parentIndex]);
       index = parentIndex;
     } else
@@ -57,16 +68,12 @@ void Minheap::percolateDown(unsigned index) {
     unsigned rightIndex = 2 * index + 2;
     unsigned smallestIndex = index;
 
-    // Make sure we stay in bounds, swap if we find smaller child count
-    if (leftIndex < heapSize &&
-        m_charCountMinheap[leftIndex]->count < m_charCountMinheap[smallestIndex]->count) {
+    if (leftIndex < heapSize && index1Smaller(leftIndex, smallestIndex)) {
       smallestIndex = leftIndex;
     }
-    if (rightIndex < heapSize &&
-        m_charCountMinheap[rightIndex]->count < m_charCountMinheap[smallestIndex]->count) {
+    if (rightIndex < heapSize && index1Smaller(rightIndex, smallestIndex)) {
       smallestIndex = rightIndex;
     }
-    // If no change happened that means heap properties sastified
     if (smallestIndex == index) {
       break;
     }

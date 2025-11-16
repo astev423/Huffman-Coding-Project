@@ -8,12 +8,12 @@
 class HuffmanTree {
 public:
   unique_ptr<CharCountNode> root;
-  // make tree out of nodes then test dfs
+  bool node1Lesser(const unique_ptr<CharCountNode>& node1, const unique_ptr<CharCountNode>& node2);
   void buildFromMinheap(Minheap& minheap);
   void postOrderTraversal(const unique_ptr<CharCountNode>& root, unsigned& leavesVisited,
                           unsigned& charsVisited);
-  void getCharCodesDFS(const unique_ptr<CharCountNode>& root,
-                       unordered_map<string, string>& charsAndCodes, string curPath);
+  void createCharCodesViaDFS(const unique_ptr<CharCountNode>& root,
+                             unordered_map<string, string>& charsAndCodes, string curPath);
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef ENCODE_H
-#define ENCODE_H
+#ifndef ENCODER_H
+#define ENCODER_H
 
 #include "HuffmanTree.h"
 #include "Minheap.h"
@@ -10,11 +10,11 @@
 
 class Encoder {
 private:
-  unsigned m_totalCharCount;
-  HuffmanTree m_huffmanTree;
   Minheap m_minheap;
 
 public:
+  HuffmanTree m_huffmanTree;
+  unsigned long long m_totalCharCount;
   unordered_map<string, unsigned> m_charsAndTheirOccurences;
   unordered_map<string, string> m_charsAndCodes;
   Encoder() : m_totalCharCount(0) {}
