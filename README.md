@@ -27,6 +27,10 @@ with those.
 -Working with bits was incredibly challenging. I think C++ was not designed to work with bits so
 I had to use libraries like bitset which were confusing to use and involved a lot of type conversion.
 
+-To work with bits I had to use casts which were also confusing but very interesting once learned.
+Reinterpret cast is kind of like changing the file extension, the data stays the same but the way
+the computer interprets it is different, which I find very cool.
+
 -I forgot to make the Huffman tree and minheap use the chars as tiebreaker. This meant that if count
 was equal sometimes it would choose different nodes, which caused my binary file to get decoded wrongly.
 Thanks to the tests I quickly saw that the codes were different after remaking the tree, so I knew
