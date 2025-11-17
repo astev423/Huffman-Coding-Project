@@ -27,7 +27,8 @@ void Encoder::createCharCodeDict() {
   m_huffmanTree.createCharCodesViaDFS(m_huffmanTree.root, m_charsAndCodes, "");
 }
 
-char Encoder::convertStrToByte(string str) {
+// Build integer matching string which allows us to cast to to char which represents a byte
+unsigned char Encoder::convertStrToByte(string str) {
   int intByte = 0;
   for (char c : str) {
     if (c == '1')
@@ -36,7 +37,7 @@ char Encoder::convertStrToByte(string str) {
       intByte = (intByte << 1) | 0;
   }
 
-  return static_cast<char>(intByte);
+  return static_cast<unsigned char>(intByte);
 }
 
 void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
@@ -57,11 +58,14 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
   char charr;
   while (txtFile.get(charr)) {
     string key(1, charr);
-    string codeStr = m_charsAndCodes.at(key);
+    string codeStr = m_charsAndCodes[key];
     for (char bit : codeStr) {
       strByte += bit;
       if (strByte.size() == 8) {
-        serializedCode.put(convertStrToByte(strByte));
+        // Unsigned char reccomended for safely working with bits
+        unsigned char newByte = convertStrToByte(strByte);
+        // But put expects normal char so cast it back to normal char
+        serializedCode.put(static_cast<char>(newByte));
         strByte = "";
       }
     }
@@ -71,8 +75,8 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
   while (strByte.size() != 8) {
     strByte += "0";
   }
-  char byteChar = convertStrToByte(strByte);
-  serializedCode.put(byteChar);
+  unsigned char byteChar = convertStrToByte(strByte);
+  serializedCode.put(static_cast<char>(byteChar));
 
   // Cpp file library stuff for getting size of file
   auto end2 = serializedCode.tellp();

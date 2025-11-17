@@ -1,4 +1,4 @@
-#include "../../src/Encode.h"
+#include "../../src/Encoder.h"
 
 Encoder makeCodesFromFile();
 

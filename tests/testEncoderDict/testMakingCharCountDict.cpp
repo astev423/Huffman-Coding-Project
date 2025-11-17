@@ -1,30 +1,24 @@
-// To run this copy and paste this into terminal
-/*
-g++ -std=c++23 -Wall -Werror  testMakingCharCountDict.cpp ../../src/Encode.cpp ../../src/Minheap.cpp
-&& ./a.out
-*/
-
-#include "../../src/Encode.h"
+#include "../../src/Encoder.h"
 #include <unordered_map>
 #include <vector>
 
-void makeExpectedDictsAndCharCounts(vector<int>& expectedTotalChars,
-                                    vector<unordered_map<string, int>>& expectedDicts);
-void compareExpectedAndReturnedValues(const unordered_map<string, int>& returnedDicts,
-                                      const unordered_map<string, int>& expectedDicts,
-                                      int returnedCharCount, int expectedCharCount, int& fails,
-                                      int fileNum);
+void makeExpectedDictsAndCharCounts(vector<unsigned>& expectedTotalChars,
+                                    vector<unordered_map<string, unsigned>>& expectedDicts);
+void compareExpectedAndReturnedValues(const unordered_map<string, unsigned>& returnedDicts,
+                                      const unordered_map<string, unsigned>& expectedDicts,
+                                      unsigned returnedCharCount, unsigned expectedCharCount,
+                                      unsigned& fails, unsigned fileNum);
 
 int main() {
   Encoder encoder;
-  vector<unordered_map<string, int>> expectedDicts;
-  vector<int> expectedTotalChars;
+  vector<unordered_map<string, unsigned>> expectedDicts;
+  vector<unsigned> expectedTotalChars;
   makeExpectedDictsAndCharCounts(expectedTotalChars, expectedDicts);
 
   // You can test files 1-10
-  int filesToTest = 10;
-  int fails = 0;
-  for (int filenum = 1; filenum <= filesToTest; ++filenum) {
+  unsigned filesToTest = 10;
+  unsigned fails = 0;
+  for (unsigned filenum = 1; filenum <= filesToTest; ++filenum) {
     string path = "../textFiles/txt" + to_string(filenum) + ".txt";
     ifstream txtFile(path);
     if (!txtFile) {
@@ -43,21 +37,23 @@ int main() {
   cout << filesToTest - fails << " out of " << filesToTest << " cases passed!\n";
 }
 
-void makeExpectedDictsAndCharCounts(vector<int>& expectedTotalChars,
-                                    vector<unordered_map<string, int>>& expectedDicts) {
+void makeExpectedDictsAndCharCounts(vector<unsigned>& expectedTotalChars,
+                                    vector<unordered_map<string, unsigned>>& expectedDicts) {
   // When making expected dicts, order does not matter, just key value pairs
   // Below is all our expected dictionary key value pairs and the char count for each
-  unordered_map<string, int> expectedDict1 = {{"\\", 1}, {"!", 1}, {"/", 1}, {"$", 1}, {"&", 1},
-                                              {"\n", 1}, {"*", 1}, {" ", 3}, {"o", 1}, {"b", 2}};
+  unordered_map<string, unsigned> expectedDict1 = {{"\\", 1}, {"!", 1},  {"/", 1}, {"$", 1},
+                                                   {"&", 1},  {"\n", 1}, {"*", 1}, {" ", 3},
+                                                   {"o", 1},  {"b", 2}};
   expectedDicts.push_back(expectedDict1);
   expectedDicts.push_back(expectedDict1);
   expectedTotalChars.push_back(13);
   expectedTotalChars.push_back(13);
-  unordered_map<string, int> expectedDict2 = {{"b", 1}, {"i", 1}, {"l", 2}, {"p", 2}, {"o", 1},
-                                              {"1", 1}, {"2", 1}, {"3", 1}, {"!", 1}, {"\n", 5}};
+  unordered_map<string, unsigned> expectedDict2 = {{"b", 1}, {"i", 1}, {"l", 2}, {"p", 2},
+                                                   {"o", 1}, {"1", 1}, {"2", 1}, {"3", 1},
+                                                   {"!", 1}, {"\n", 5}};
   expectedDicts.push_back(expectedDict2);
   expectedTotalChars.push_back(16);
-  unordered_map<string, int> expectedDict3 = {
+  unordered_map<string, unsigned> expectedDict3 = {
       {"\n", 112}, {" ", 605}, {"!", 21},  {"\"", 2},  {"'", 39},  {",", 45},  {"-", 6},
       {".", 92},   {"0", 3},   {"1", 3},   {"2", 1},   {"5", 1},   {"7", 1},   {"8", 1},
       {"9", 1},    {":", 1},   {"?", 24},  {"A", 12},  {"B", 15},  {"C", 6},   {"D", 2},
@@ -70,7 +66,7 @@ void makeExpectedDictsAndCharCounts(vector<int>& expectedTotalChars,
       {"x", 7},    {"y", 88},  {"z", 6}};
   expectedDicts.push_back(expectedDict3);
   expectedTotalChars.push_back(3982);
-  unordered_map<string, int> expectedDict4 = {
+  unordered_map<string, unsigned> expectedDict4 = {
       {"\n", 21}, {"#", 1}, {"$", 2}, {"%", 2}, {"&", 4}, {"(", 3}, {"*", 5}, {"1", 1},
       {"2", 3},   {"3", 2}, {"4", 4}, {"5", 1}, {"6", 1}, {"7", 1}, {"8", 5}, {"9", 5},
       {"@", 2},   {"a", 1}, {"d", 6}, {"e", 2}, {"f", 6}, {"h", 2}, {"i", 2}, {"j", 6},
@@ -78,34 +74,34 @@ void makeExpectedDictsAndCharCounts(vector<int>& expectedTotalChars,
   };
   expectedDicts.push_back(expectedDict4);
   expectedTotalChars.push_back(104);
-  unordered_map<string, int> expectedDict5 = {{"\n", 12}, {" ", 2}, {"=", 27}, {"d", 1}, {"e", 5},
-                                              {"f", 1},   {"h", 1}, {"i", 2},  {"m", 1}, {"n", 2},
-                                              {"o", 4},   {"r", 4}, {"s", 1},  {"u", 2}, {"w", 3}};
+  unordered_map<string, unsigned> expectedDict5 = {
+      {"\n", 12}, {" ", 2}, {"=", 27}, {"d", 1}, {"e", 5}, {"f", 1}, {"h", 1}, {"i", 2},
+      {"m", 1},   {"n", 2}, {"o", 4},  {"r", 4}, {"s", 1}, {"u", 2}, {"w", 3}};
   expectedDicts.push_back(expectedDict5);
   expectedTotalChars.push_back(68);
-  unordered_map<string, int> expectedDict6 = {
+  unordered_map<string, unsigned> expectedDict6 = {
       {"\n", 1}, {" ", 3}, {"!", 2}, {"(", 1}, {")", 1}, {"@", 2}, {"?", 2}, {"a", 1},
       {"b", 1},  {"h", 1}, {"i", 2}, {"k", 2}, {"l", 1}, {"n", 3}, {"o", 1}, {"t", 2}};
   expectedDicts.push_back(expectedDict6);
   expectedTotalChars.push_back(26);
-  unordered_map<string, int> expectedDict7 = {{"i", 1}, {"\n", 1}};
+  unordered_map<string, unsigned> expectedDict7 = {{"i", 1}, {"\n", 1}};
   expectedDicts.push_back(expectedDict7);
   expectedTotalChars.push_back(2);
-  unordered_map<string, int> expectedDict8 = {{"?", 1}, {"\n", 1}};
+  unordered_map<string, unsigned> expectedDict8 = {{"?", 1}, {"\n", 1}};
   expectedDicts.push_back(expectedDict8);
   expectedTotalChars.push_back(2);
-  unordered_map<string, int> expectedDict9 = {{"a", 22000}, {"\n", 2200}};
+  unordered_map<string, unsigned> expectedDict9 = {{"a", 22000}, {"\n", 2200}};
   expectedDicts.push_back(expectedDict9);
   expectedTotalChars.push_back(24200);
-  unordered_map<string, int> expectedDict10 = {};
+  unordered_map<string, unsigned> expectedDict10 = {};
   expectedDicts.push_back(expectedDict10);
   expectedTotalChars.push_back(0);
 }
 
-void compareExpectedAndReturnedValues(const unordered_map<string, int>& returnedDict,
-                                      const unordered_map<string, int>& expectedDict,
-                                      int returnedCharCount, int expectedCharCount, int& fails,
-                                      int fileNum) {
+void compareExpectedAndReturnedValues(const unordered_map<string, unsigned>& returnedDict,
+                                      const unordered_map<string, unsigned>& expectedDict,
+                                      unsigned returnedCharCount, unsigned expectedCharCount,
+                                      unsigned& fails, unsigned fileNum) {
   bool failed = false;
   // printing key value pairs for debugging
   //  for (const auto &[ch, count] : returnedDict) {

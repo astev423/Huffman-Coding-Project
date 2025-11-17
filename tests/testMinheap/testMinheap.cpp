@@ -1,8 +1,3 @@
-// To run this copy and paste this into terminal
-/*
-g++ -std=c++23 -Wall -Werror  testMinheap.cpp ../../src/Minheap.cpp && ./a.out
-*/
-
 #include "../../src/Minheap.h"
 #include <memory>
 

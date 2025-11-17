@@ -43,6 +43,7 @@ void Decoder::traverseTreeAndAppendChars(ifstream& binaryFile, ofstream& decompr
   while (m_encoder.m_totalCharCount > 0) {
     // Refill string with next byte if if we remove all bits
     if (bitsStr == "") {
+      // Read expects char pointer but bitset needs unsigned char, so do conversion
       binaryFile.read(reinterpret_cast<char*>(&byte), 1);
       bitsStr = bitset<8>(byte).to_string();
     }

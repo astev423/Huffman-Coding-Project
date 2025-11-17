@@ -23,7 +23,7 @@ public:
   void createHuffmanTreeFromMinheap();
   void createCharCodeDict();
   void makeCompressedFolder(ifstream& txtFile);
-  char convertStrToByte(string str);
+  unsigned char convertStrToByte(string str);
   void serializeCodes(ostream& serializedCode, ifstream& txtFile);
   void serializeHeap(ostream& serializedCode);
 

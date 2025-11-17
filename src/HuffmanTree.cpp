@@ -52,20 +52,16 @@ void HuffmanTree::createCharCodesViaDFS(const unique_ptr<CharCountNode>& root,
   createCharCodesViaDFS(root->right, charsAndCodes, pathCopy.append("1"));
 }
 
-void HuffmanTree::postOrderTraversal(const unique_ptr<CharCountNode>& root, unsigned& leavesVisited,
-                                     unsigned& charsVisited) {
+void HuffmanTree::postOrderTraversal(unique_ptr<CharCountNode>& root, unsigned& charsVisited) {
   if (root == nullptr) {
     return;
   }
 
-  if (root->charr != "INTERNAL") {
-    ++charsVisited;
-  }
   if (root->left == nullptr && root->right == nullptr) {
-    ++leavesVisited;
+    ++charsVisited;
+    std::cout << root->charr << " count = " << root->count << std::endl;
   }
 
-  postOrderTraversal(root->left, leavesVisited, charsVisited);
-  postOrderTraversal(root->right, leavesVisited, charsVisited);
-  std::cout << root->charr << " count = " << root->count << std::endl;
+  postOrderTraversal(root->left, charsVisited);
+  postOrderTraversal(root->right, charsVisited);
 }
