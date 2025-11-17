@@ -26,6 +26,7 @@ public:
   unsigned char convertStrToByte(string str);
   void serializeCodes(ostream& serializedCode, ifstream& txtFile);
   void serializeHeap(ostream& serializedCode);
+  int encode();
 
   // Getters and setters
   unordered_map<string, unsigned>& getCharDict();

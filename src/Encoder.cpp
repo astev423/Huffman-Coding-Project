@@ -113,6 +113,34 @@ void Encoder::makeCompressedFolder(ifstream& txtFile) {
   serializeHeap(serializedHeap);
 }
 
+int Encoder::encode() {
+  cout << "Compression mode: Carefully type the full name of your file (including the .txt)\n";
+  string fileName = "";
+  cin >> fileName;
+  ifstream txtFile(fileName);
+  if (!txtFile.is_open()) {
+    cout << "Failed to open text file, make sure its spelled correctly (case sensitive)\n";
+    return -1;
+  }
+
+  // Now get chars from txt file and make the data structures we need to start compressing
+  createCharCountDict(txtFile);
+  createCharCountMinheap();
+  if (getMinheapSize() == 0) {
+    cout << "Empty file passed in. Cannot compress empty file, its already empty\n";
+    return -1;
+  }
+  createHuffmanTreeFromMinheap();
+
+  // After making data structures we can now get codes which we add to folder
+  createCharCodeDict();
+  ifstream txtFileCopy(fileName);
+  makeCompressedFolder(txtFileCopy);
+
+  cout << "Compression complete! Your file 'compressed.txt' is in the folder 'compressed'\n";
+  return 0;
+}
+
 // Getters and setters
 unordered_map<string, unsigned>& Encoder::getCharDict() { return m_charsAndTheirOccurences; }
 unordered_map<string, string> Encoder::getCharCodes() { return m_charsAndCodes; };

@@ -2,6 +2,7 @@
 #define MINHEAP_H
 
 #include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <vector>

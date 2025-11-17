@@ -73,6 +73,28 @@ void Decoder::traverseTreeAndAppendChars(ifstream& binaryFile, ofstream& decompr
   }
 }
 
+int Decoder::decode() {
+  cout << "Decompression mode. Looking for compressed folder" << endl;
+  // Get serialized heap and make file for decompressing binary into text
+  Decoder decoder;
+  ifstream serializedHeap("compressed/serializedHeap.txt");
+  ofstream decompressedTxtFile("decompressedTxtFile.txt");
+  if (!serializedHeap.is_open()) {
+    cout << "Failed to open compressed file, ensure the compressed folder is in this directory/n";
+    return -1;
+  }
+
+  // Remake tree to translate binary codes, then use codes to traverse tree
+  decoder.deserializeMinheap(serializedHeap);
+  decoder.remakeDataStructures();
+  ifstream binaryFile2("compressed/serializedCode.txt");
+  decoder.traverseTreeAndAppendChars(binaryFile2, decompressedTxtFile);
+
+  std::cout << "Decompression complete! Your decompressed data is in decompressedTxtFile.txt"
+            << std::endl;
+  return 0;
+}
+
 void Decoder::printEachByteInBinary(ifstream& binaryFile) {
   unsigned char byte = 0;
   int i = 0;
