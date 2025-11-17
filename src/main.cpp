@@ -1,15 +1,16 @@
 #include "Decoder.h"
 #include "Encoder.h"
+#include <iostream>
 
 int main() {
-  // CLI setup, get find out if user wants to compress or decompress and file to do it on
+  // CLI setup: determine whether the user wants to compress or decompress
   int mode = 0;
   int exitCode = 0;
-  cout << "Make sure file/folder you want to compress/decompress in in current directory\n";
-  cout << "Type 1 if you would like to compress or type 2 to decompress\n";
-  cin >> mode;
+  std::cout << "Make sure file/folder you want to compress/decompress is in current directory\n";
+  std::cout << "Type 1 to compress or 2 to decompress\n";
+  std::cin >> mode;
 
-  // Encoder/Decoder class perform all necessary logic and return 0 if successful or -1 if not
+  // Encoder/Decoder classes perform all necessary logic and return 0 if successful or -1 on failure
   if (mode == 1) {
     Encoder encoder;
     exitCode = encoder.encode();
@@ -17,7 +18,7 @@ int main() {
     Decoder decoder;
     exitCode = decoder.decode();
   } else {
-    cout << "Please enter just 1 or 2\n";
+    std::cout << "Please enter only the integers 1 or 2\n";
     exitCode = -1;
   }
 

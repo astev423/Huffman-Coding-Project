@@ -7,7 +7,7 @@
 
 2. Then open the terminal in the folder. In the terminal type
 ```
-Make
+make
 ```
 and then
 ```
