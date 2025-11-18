@@ -9,10 +9,8 @@
 #include <unordered_map>
 
 class Encoder {
-private:
-  Minheap m_minheap;
-
 public:
+  Minheap m_minheap;
   HuffmanTree m_huffmanTree;
   unsigned long long m_totalCharCount;
   unordered_map<string, unsigned> m_charsAndTheirOccurences;

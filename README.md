@@ -34,3 +34,7 @@ was equal sometimes it would choose different nodes, which caused my binary file
 Thanks to the tests I quickly saw that the codes were different after remaking the tree, so I knew
 something was causing some ambiguity there. I knew it was the chars causing ambiguity because I thought
 about adding a tie breaker as chars but decided it was unnessecary. Turns out it was nessecary!
+
+-There was a bad edge case involving the heap and spaces, it's happened because I used isstream which 
+seperates by space. So it skipped over my char and caused the whole decoder to break in some cases.
+Serializing and deserializing can be very tricky!

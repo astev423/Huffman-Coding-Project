@@ -1,12 +1,13 @@
 #include "Decoder.h"
 #include "Minheap.h"
 #include <bitset>
+#include <iostream>
 #include <memory>
 
 void Decoder::deserializeMinheap(ifstream& binaryFile) {
   string line;
   string charr;
-  string count;
+  unsigned long countStartIndex = 0;
   bool firstRun = true;
 
   // Get data to remake datastructures
@@ -18,18 +19,29 @@ void Decoder::deserializeMinheap(ifstream& binaryFile) {
       continue;
     }
 
-    istringstream iss(line);
-    iss >> charr >> count;
+    string count = "";
+    // Get the char and find where the count begins
+    if (line[1] == 'E') {
+      charr = "NEWLINE";
+      countStartIndex = 8;
+    } else {
+      charr = line[0];
+      countStartIndex = 2;
+    }
+    while (countStartIndex < line.size()) {
+      count += line[countStartIndex];
+      countStartIndex++;
+    }
     // Do annoying conversion, no string to unsigned
     unsigned long longUnsignedCount = stoul(count);
     unsigned unsignedCount = static_cast<unsigned>(longUnsignedCount);
 
-    m_encoder.m_charsAndTheirOccurences[charr] = unsignedCount;
+    unique_ptr<CharCountNode> node = make_unique<CharCountNode>(charr, unsignedCount);
+    m_encoder.m_minheap.m_charCountMinheap.push_back(std::move(node));
   }
 }
 
 void Decoder::remakeDataStructures() {
-  m_encoder.createCharCountMinheap();
   m_encoder.createHuffmanTreeFromMinheap();
   m_encoder.createCharCodeDict();
 }

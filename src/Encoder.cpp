@@ -2,6 +2,7 @@
 #include "HuffmanTree.h"
 #include "Minheap.h"
 #include <iomanip>
+#include <memory>
 
 void Encoder::createCharCountDict(ifstream& txtFile) {
   char charr;
@@ -18,6 +19,14 @@ void Encoder::createCharCountDict(ifstream& txtFile) {
 void Encoder::createCharCountMinheap() {
   for (const auto& [charr, count] : m_charsAndTheirOccurences) {
     m_minheap.insert(charr, count);
+  }
+  std::cout << "Printing out minheap" << std::endl;
+  for (const auto& node : m_minheap.m_charCountMinheap) {
+    if (node->charr == "\n") {
+      std::cout << "NEWLINE" << " " << node->count << std::endl;
+    } else {
+      std::cout << node->charr << " " << node->count << std::endl;
+    }
   }
 }
 
@@ -86,13 +95,20 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
 
 void Encoder::serializeHeap(ostream& serializedHeap) {
   // Write size of heap so we know how much to decode
-  serializedHeap << m_totalCharCount << '\n';
-  // Since heap is unique_ptr we can't serialize it directly but we can easily rebuild it from this
-  for (auto [charr, count] : m_charsAndTheirOccurences) {
-    if (charr == "\n") {
-      serializedHeap << "NEWLINE" << ' ' << count << '\n';
+  std::cout << "***Printing out minheap" << std::endl;
+  for (const auto& node : m_minheap.m_charCountMinheap) {
+    if (node->charr == "\n") {
+      std::cout << "NEWLINE" << " " << node->count << std::endl;
     } else {
-      serializedHeap << charr << ' ' << count << '\n';
+      std::cout << node->charr << " " << node->count << std::endl;
+    }
+  }
+  serializedHeap << m_totalCharCount << '\n';
+  for (const unique_ptr<CharCountNode>& node : m_minheap.m_charCountMinheap) {
+    if (node->charr == "\n") {
+      serializedHeap << "NEWLINE" << ' ' << node->count << '\n';
+    } else {
+      serializedHeap << node->charr << ' ' << node->count << '\n';
     }
   }
 }

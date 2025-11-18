@@ -9,7 +9,7 @@ class HuffmanTree {
 public:
   unique_ptr<CharCountNode> root;
   bool node1Lesser(const unique_ptr<CharCountNode>& node1, const unique_ptr<CharCountNode>& node2);
-  void buildFromMinheap(Minheap& minheap);
+  void buildFromMinheap(const Minheap& minheap);
   void createCharCodesViaDFS(const unique_ptr<CharCountNode>& root,
                              unordered_map<string, string>& charsAndCodes, string curPath);
   void postOrderTraversal(unique_ptr<CharCountNode>& root, unsigned& charsVisited);
