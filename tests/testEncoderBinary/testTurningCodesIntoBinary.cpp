@@ -8,16 +8,16 @@ bool createdBinaryMatchesExpectedBinary(int fileNum);
 void printCodesForCurFileChars(const Encoder& encoder);
 
 int main() {
-  // int exitCode = makeBinaryFiles();
-  int exitCode = 0;
-  makeBinaryFile("../textFiles/txt6.txt");
+  int exitCode = makeBinaryFiles();
+  // int exitCode = 0;
+  // makeBinaryFile("../textFiles/txt5.txt");
   return exitCode;
 }
 
 int makeBinaryFiles() {
   int fails = 0;
-  int filesToTest = 9;
-  for (int fileNum = 7; fileNum <= filesToTest; ++fileNum) {
+  int filesToTest = 6;
+  for (int fileNum = 5; fileNum <= filesToTest; ++fileNum) {
     std::cout << "Testing file " << fileNum << std::endl;
     string pathToFile = "../textFiles/txt" + to_string(fileNum) + ".txt";
     makeBinaryFile(pathToFile);

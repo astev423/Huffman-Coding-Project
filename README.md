@@ -1,6 +1,4 @@
 # Huffman-Coding-Project
--Write tests in binary for decompression, tests with minheap vectors for deserialization/serialization. MAKE SURE EVERYTHING WORKS BEFORE MOVING ONTO THE NEXT THING!
-
 
 # How to run/test
 1. Download/Git clone the repository and enter the folder you just downloaded (should be called huffman-coding-project or something similar).
