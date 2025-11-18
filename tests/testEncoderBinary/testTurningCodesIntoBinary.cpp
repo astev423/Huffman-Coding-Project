@@ -55,6 +55,9 @@ void makeBinaryFile(string pathToFile) {
   ifstream txtFileCopy(pathToFile);
   encoder.makeCompressedFolder(txtFileCopy);
   printCodesForCurFileChars(encoder);
+  std::cout << "**********DOING HUFFMAN TRAVERSAL" << std::endl;
+  unsigned int charsVisited = 0;
+  encoder.m_huffmanTree.postOrderTraversal(encoder.m_huffmanTree.root, charsVisited);
 }
 
 bool createdBinaryMatchesExpectedBinary(int fileNum) {
@@ -111,6 +114,7 @@ void printCodesForCurFileChars(const Encoder& encoder) {
   std::cout << "Printing codes for chars" << std::endl;
   for (const auto& [charr, code] : encoder.m_charsAndCodes) {
     if (charr == "\n") {
+      std::cout << "BROKEN" << std::endl;
       std::cout << "NEWLINE" << ":" << code << std::endl;
     } else {
       std::cout << charr << ":" << code << std::endl;

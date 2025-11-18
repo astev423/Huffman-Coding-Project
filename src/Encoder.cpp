@@ -2,6 +2,7 @@
 #include "HuffmanTree.h"
 #include "Minheap.h"
 #include <iomanip>
+#include <iostream>
 #include <memory>
 
 void Encoder::createCharCountDict(ifstream& txtFile) {
@@ -18,15 +19,16 @@ void Encoder::createCharCountDict(ifstream& txtFile) {
 // Insert all dictionary values to make minheap
 void Encoder::createCharCountMinheap() {
   for (const auto& [charr, count] : m_charsAndTheirOccurences) {
-    m_minheap.insert(charr, count);
+    if (charr == "\n") {
+      std::cout << "********inserting newline into heap" << std::endl;
+      m_minheap.insert("NEWLINE", count);
+    } else {
+      m_minheap.insert(charr, count);
+    }
   }
   std::cout << "Printing out minheap" << std::endl;
   for (const auto& node : m_minheap.m_charCountMinheap) {
-    if (node->charr == "\n") {
-      std::cout << "NEWLINE" << " " << node->count << std::endl;
-    } else {
-      std::cout << node->charr << " " << node->count << std::endl;
-    }
+    std::cout << node->charr << " " << node->count << std::endl;
   }
 }
 
@@ -67,6 +69,9 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
   char charr;
   while (txtFile.get(charr)) {
     string key(1, charr);
+    if (charr == '\n') {
+      key = "NEWLINE";
+    }
     string codeStr = m_charsAndCodes[key];
     for (char bit : codeStr) {
       strByte += bit;
@@ -95,7 +100,7 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
 
 void Encoder::serializeHeap(ostream& serializedHeap) {
   // Write size of heap so we know how much to decode
-  std::cout << "***Printing out minheap" << std::endl;
+  std::cout << "Printing out serialized minheap" << std::endl;
   for (const auto& node : m_minheap.m_charCountMinheap) {
     if (node->charr == "\n") {
       std::cout << "NEWLINE" << " " << node->count << std::endl;

@@ -1,5 +1,4 @@
 #include "../../src/Decoder.h"
-#include <memory>
 #include <string>
 #include <unordered_map>
 
@@ -45,17 +44,16 @@ void convertBinaryToTxt(string pathToFolder) {
 
   // Remake tree to translate binary codes, then use codes to traverse tree
   decoder.deserializeMinheap(serializedHeap);
-  vector<unique_ptr<CharCountNode>>& heap = decoder.m_encoder.m_minheap.m_charCountMinheap;
-  std::cout << "Printing heap" << std::endl;
-  for (const auto& node : heap) {
-    std::cout << node->charr << " " << node->count << std::endl;
-  }
   decoder.remakeDataStructures();
   unordered_map<string, string> codes = decoder.m_encoder.m_charsAndCodes;
   std::cout << "Printing codes" << std::endl;
   for (const auto& [charr, code] : codes) {
     std::cout << charr << " " << code << std::endl;
   }
+  std::cout << "**********DOING HUFFMAN TRAVERSAL" << std::endl;
+  unsigned int charsVisited = 0;
+  decoder.m_encoder.m_huffmanTree.postOrderTraversal(decoder.m_encoder.m_huffmanTree.root,
+                                                     charsVisited);
   ifstream binaryFile2(pathToFolder + "/serializedCode.txt");
   decoder.traverseTreeAndAppendChars(binaryFile2, decompressedTxtFile);
 

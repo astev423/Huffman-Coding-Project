@@ -57,6 +57,9 @@ void HuffmanTree::createCharCodesViaDFS(const unique_ptr<CharCountNode>& root,
     return;
   }
 
+  if (root->charr == "\n") {
+    std::cout << "*************RED ALERT********************" << std::endl;
+  }
   charsAndCodes[root->charr] = curPath;
   string pathCopy = curPath;
   createCharCodesViaDFS(root->left, charsAndCodes, curPath.append("0"));
