@@ -1,6 +1,10 @@
 # Huffman-Coding-Project
 
-# How to run/test
+This algorithm .... explain here
+
+## Important note: This project is designed for text files (.txt) containing only ASCII characters
+
+## How to run/test
 1. Download/Git clone the repository and enter the folder you just downloaded (should be called huffman-coding-project or something similar).
 
 2. Then open the terminal in the folder. In the terminal type
@@ -13,7 +17,12 @@ and then
 ```
 The terminal output from the program will explain the rest. Just make sure you have a .txt file ready in the same folder as the executable.
 
-# Notes on the project
+For example, if you have a text file named text.txt in the same directory as the executable,
+then after running `./HuffmanCoder` type `1` and then `text.txt` which compresses the file.
+Then simply type `./HuffmanCoder` again and type `2` to decompress the file. Your decompressed
+file will be in a new text file called `decompressedTxtFile.txt`.
+
+## Notes on the project
 -I wanted to learn how to use smart pointers, which I think I did successfully, but they were
 definitely a challenge.
 
