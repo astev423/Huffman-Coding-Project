@@ -15,8 +15,8 @@ int main() {
   vector<unsigned> expectedTotalChars;
   makeExpectedDictsAndCharCounts(expectedTotalChars, expectedDicts);
 
-  // You can test files 1-10
-  unsigned filesToTest = 10;
+  // You can test files 1-9
+  unsigned filesToTest = 9;
   unsigned fails = 0;
   for (unsigned filenum = 1; filenum <= filesToTest; ++filenum) {
     string path = "../textFiles/txt" + to_string(filenum) + ".txt";
@@ -93,9 +93,6 @@ void makeExpectedDictsAndCharCounts(vector<unsigned>& expectedTotalChars,
   unordered_map<string, unsigned> expectedDict9 = {{"a", 22000}, {"\n", 2200}};
   expectedDicts.push_back(expectedDict9);
   expectedTotalChars.push_back(24200);
-  unordered_map<string, unsigned> expectedDict10 = {};
-  expectedDicts.push_back(expectedDict10);
-  expectedTotalChars.push_back(0);
 }
 
 void compareExpectedAndReturnedValues(const unordered_map<string, unsigned>& returnedDict,

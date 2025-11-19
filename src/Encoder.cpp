@@ -20,15 +20,10 @@ void Encoder::createCharCountDict(ifstream& txtFile) {
 void Encoder::createCharCountMinheap() {
   for (const auto& [charr, count] : m_charsAndTheirOccurences) {
     if (charr == "\n") {
-      std::cout << "********inserting newline into heap" << std::endl;
       m_minheap.insert("NEWLINE", count);
     } else {
       m_minheap.insert(charr, count);
     }
-  }
-  std::cout << "Printing out minheap" << std::endl;
-  for (const auto& node : m_minheap.m_charCountMinheap) {
-    std::cout << node->charr << " " << node->count << std::endl;
   }
 }
 
@@ -100,14 +95,6 @@ void Encoder::serializeCodes(ostream& serializedCode, ifstream& txtFile) {
 
 void Encoder::serializeHeap(ostream& serializedHeap) {
   // Write size of heap so we know how much to decode
-  std::cout << "Printing out serialized minheap" << std::endl;
-  for (const auto& node : m_minheap.m_charCountMinheap) {
-    if (node->charr == "\n") {
-      std::cout << "NEWLINE" << " " << node->count << std::endl;
-    } else {
-      std::cout << node->charr << " " << node->count << std::endl;
-    }
-  }
   serializedHeap << m_totalCharCount << '\n';
   for (const unique_ptr<CharCountNode>& node : m_minheap.m_charCountMinheap) {
     if (node->charr == "\n") {

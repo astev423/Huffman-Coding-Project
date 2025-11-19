@@ -39,11 +39,6 @@ void Decoder::deserializeMinheap(ifstream& binaryFile) {
     unique_ptr<CharCountNode> node = make_unique<CharCountNode>(charr, unsignedCount);
     m_encoder.m_minheap.m_charCountMinheap.push_back(std::move(node));
   }
-  vector<unique_ptr<CharCountNode>>& heap = m_encoder.m_minheap.m_charCountMinheap;
-  std::cout << "Printing deserialized heap" << std::endl;
-  for (const auto& node : heap) {
-    std::cout << node->charr << " " << node->count << std::endl;
-  }
 }
 
 void Decoder::remakeDataStructures() {
@@ -97,7 +92,7 @@ int Decoder::decode() {
   ifstream serializedHeap("compressed/serializedHeap.txt");
   ofstream decompressedTxtFile("decompressedTxtFile.txt");
   if (!serializedHeap.is_open()) {
-    cout << "Failed to open compressed file, ensure the compressed folder is in this directory/n";
+    cout << "Failed to open compressed file, ensure the compressed folder is in this directory\n";
     return -1;
   }
 
