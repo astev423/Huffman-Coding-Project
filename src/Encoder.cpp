@@ -8,6 +8,7 @@
 void Encoder::createCharCountDict(ifstream& txtFile) {
   char charr;
 
+  // .get gets each individual char in the given file, here we just add up their occurrences
   while (txtFile.get(charr)) {
     string key(1, charr);
     ++m_charsAndTheirOccurences[key];
@@ -37,10 +38,11 @@ void Encoder::createCharCodeDict() {
 unsigned char Encoder::convertStrToByte(string str) {
   int intByte = 0;
   for (char c : str) {
-    if (c == '1')
+    if (c == '1') {
       intByte = (intByte << 1) | 1;
-    else
+    } else {
       intByte = (intByte << 1) | 0;
+    }
   }
 
   return static_cast<unsigned char>(intByte);
