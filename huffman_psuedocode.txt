@@ -1,4 +1,4 @@
-# Finding occurances of all characters and the total char count
+# Finding occurrences of all characters and the total char count
 textFile = open(textFile.txt)
 charsAndTheirFrequencies = {}
 for char in textFile
