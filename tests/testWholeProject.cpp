@@ -11,6 +11,8 @@ int decodeFile(int fileNum);
 bool codeMatchesExpected(int fileNum);
 int testDecodingFiles();
 
+const int FILES_TO_TEST = 12;
+
 int main() {
   int exitCode = testEncodingFiles();
   if (exitCode == -1) {
@@ -65,9 +67,8 @@ int encodeFile(int fileNum) {
 
 int testEncodingFiles() {
   // You can test files 1-10
-  unsigned filesToTest = 10;
   unsigned fails = 0;
-  for (unsigned fileNum = 1; fileNum <= filesToTest; ++fileNum) {
+  for (unsigned fileNum = 1; fileNum <= FILES_TO_TEST; ++fileNum) {
     int exitCode = encodeFile(fileNum);
     if (exitCode == -1) {
       cout << "❌ Encoding on file " << fileNum << " failed!" << endl;
@@ -76,7 +77,7 @@ int testEncodingFiles() {
   }
 
   if (fails > 0) {
-    cout << filesToTest - fails << " out of " << filesToTest << " cases passed!\n";
+    cout << FILES_TO_TEST - fails << " out of " << FILES_TO_TEST << " cases passed!\n";
     return -1;
   }
   cout << "✅ Congrats! All encodings passed!\n";
@@ -124,9 +125,8 @@ bool codeMatchesExpected(int fileNum) {
 
 int testDecodingFiles() {
   // You can test files 1-10
-  unsigned filesToTest = 10;
   unsigned fails = 0;
-  for (unsigned fileNum = 1; fileNum <= filesToTest; ++fileNum) {
+  for (unsigned fileNum = 1; fileNum <= FILES_TO_TEST; ++fileNum) {
     decodeFile(fileNum);
     if (!codeMatchesExpected(fileNum)) {
       cout << "❌ Decoding on file " << fileNum << " failed!" << endl;
@@ -135,7 +135,7 @@ int testDecodingFiles() {
   }
 
   if (fails > 0) {
-    cout << filesToTest - fails << " out of " << filesToTest << " cases passed!\n";
+    cout << FILES_TO_TEST - fails << " out of " << FILES_TO_TEST << " cases passed!\n";
     return -1;
   }
   cout << "✅ Congrats! All decodings passed!\n";
