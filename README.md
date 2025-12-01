@@ -6,7 +6,7 @@ an ASCII file (1 byte) and then uses the Huffman Coding algorithm to make binary
 A new file is made where each character is replaced by a binary code. Then, the decompressor reads the
 binary codes and uses them to traverse the Huffman tree. 0 goes to the left child, 1 goes to the right.
 Once a leaf node is reached then we have a char, so we append that to a new file and continue this 
-until we translate all codes in their respective chars.
+until we translate all codes into their respective chars.
 
 ## How to run
 1. Download/Git clone the repository and enter the folder you just downloaded (should be called huffman-coding-project or something similar).
