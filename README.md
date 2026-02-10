@@ -43,4 +43,4 @@ make
 ./TestEncodeDecode
 ``` 
 and all 12 text files will be tested. You can see what they decompress to in `tests/textDecompressed`
-and their respective text file number. Ex. txt1.txt's decompressed result will be under folder 1
+and their respective text file number. Ex. txt1.txt's decompressed result will be under folder 1.
